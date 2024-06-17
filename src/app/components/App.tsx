@@ -38,7 +38,6 @@ function App() {
       }
       if (type === 'select-element') {
         vhbox.current.value = message
-        console.log(`vh selected ${message}`)
       }
     };
   }, []);

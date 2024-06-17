@@ -9,7 +9,7 @@ figma.on("selectionchange", () => {
   
 })
 
-figma.ui.onmessage = (msg) => {
+figma.ui.onmessage = async (msg) => {
   if (msg.type === 'create-rectangles') {
     const nodes = [];
 
@@ -37,6 +37,11 @@ figma.ui.onmessage = (msg) => {
     parseVH(selection, parsedVH)
     console.log("parsed VH:")
     console.log(parsedVH)
+    if (selection.exportAsync) {
+      console.log("Base 64 Image:")
+      const b64str: string  = await exportBase64Img(selection)
+      console.log(b64str)
+    }
   }
   
   if (msg.type == 'cancel') {
@@ -69,4 +74,14 @@ function parseVH(root: BaseNode, parsedVH: object) {
     parsedVH['type'] = scene.type
     parsedVH['visible'] = scene.visible
   }
+}
+
+async function exportBase64Img(selectedNode: SceneNode): Promise<string> {
+  const imgBytes: Uint8Array = await selectedNode.exportAsync({
+    format: 'JPG', 
+    constraint: { type: 'SCALE', value: 1 }
+  })
+
+  const base64Content = figma.base64Encode(imgBytes)
+  return `data:image/jpeg;base64,${base64Content}`
 }
