@@ -63,16 +63,9 @@ function parseVH(root: BaseNode, parsedVH: object) {
     }
   } else {
     const scene = <SceneNode>root
-    parsedVH['x'] = scene.x
-    parsedVH['y'] = scene.y
-    parsedVH['height'] = scene.height  
-    parsedVH['width'] = scene.width
-    parsedVH['maxHeight'] = scene.maxHeight  
-    parsedVH['maxWidth'] = scene.maxWidth
-    parsedVH['minHeight'] = scene.minHeight
-    parsedVH['minWidth'] = scene.minWidth
-    parsedVH['type'] = scene.type
-    parsedVH['visible'] = scene.visible
+    populateUIProperties(scene, parsedVH)
+
+
   }
 }
 
@@ -84,4 +77,54 @@ async function exportBase64Img(selectedNode: SceneNode): Promise<string> {
 
   const base64Content = figma.base64Encode(imgBytes)
   return `data:image/jpeg;base64,${base64Content}`
+}
+
+function populateUIProperties(scene: SceneNode, parsedVH: object) {
+  // PROPERTIES
+  // bottomLeftRadius, bottomRightRadius, characters, clipsContent, constrainProportions, constraints, cornerRadius, description, fills, 
+  // fontName, fontSize, fontWeight, height, isMask, opacity, overflowDirection, overlayBackground, overlayBackgroundInteraction, overlayPositionType, 
+  // rotation, textDecoration, topLeftRadius, topRightRadius, type, visible, width, x, y
+  if ((<ComponentNode>scene).bottomLeftRadius) { parsedVH['bottomLeftRadius'] = (<ComponentNode>scene).bottomLeftRadius; }
+  if ((<ComponentNode>scene).bottomRightRadius) { parsedVH['bottomRightRadius'] = (<ComponentNode>scene).bottomRightRadius; }
+  if ((<TextNode>scene).characters) { parsedVH['characters'] = (<TextNode>scene).characters; }
+  if ((<ComponentNode>scene).clipsContent) { parsedVH['clipsContent'] = (<ComponentNode>scene).clipsContent; }
+  if ((<ComponentNode>scene).constrainProportions) { parsedVH['constrainProportions'] = (<ComponentNode>scene).constrainProportions; }
+  if ((<ComponentNode>scene).constraints) { parsedVH['constraints'] = (<ComponentNode>scene).constraints; }
+  if ((<ComponentNode>scene).cornerRadius) { parsedVH['cornerRadius'] = (<ComponentNode>scene).cornerRadius; }
+  if ((<ComponentNode>scene).description) { parsedVH['description'] = (<ComponentNode>scene).description; }
+  if ((<ComponentNode>scene).fills) { parsedVH['fills'] = (<ComponentNode>scene).fills; }
+  if ((<TextNode>scene).fontName) { parsedVH['fontName'] = (<TextNode>scene).fontName; }
+  if ((<TextNode>scene).fontSize) { parsedVH['fontSize'] = (<TextNode>scene).fontSize; }
+  if ((<TextNode>scene).fontWeight) { parsedVH['fontWeight'] = (<TextNode>scene).fontWeight; }
+  if ((<ComponentNode>scene).height) { parsedVH['height'] = (<ComponentNode>scene).height; }
+  if ((<ComponentNode>scene).isMask) { parsedVH['isMask'] = (<ComponentNode>scene).isMask; }
+  if ((<ComponentNode>scene).opacity) { parsedVH['opacity'] = (<ComponentNode>scene).opacity; }
+  if ((<ComponentNode>scene).overflowDirection) { parsedVH['overflowDirection'] = (<ComponentNode>scene).overflowDirection; }
+  if ((<ComponentNode>scene).overlayBackground) { parsedVH['overlayBackground'] = (<ComponentNode>scene).overlayBackground; }
+  if ((<ComponentNode>scene).overlayBackgroundInteraction) { parsedVH['overlayBackgroundInteraction'] = (<ComponentNode>scene).overlayBackgroundInteraction; }
+  if ((<ComponentNode>scene).overlayPositionType) { parsedVH['overlayPositionType'] = (<ComponentNode>scene).overlayPositionType; }
+  if ((<ComponentNode>scene).rotation) { parsedVH['rotation'] = (<ComponentNode>scene).rotation; }
+  if ((<TextNode>scene).textDecoration) { parsedVH['textDecoration'] = (<TextNode>scene).textDecoration; }
+  if ((<ComponentNode>scene).topLeftRadius) { parsedVH['topLeftRadius'] = (<ComponentNode>scene).topLeftRadius; }
+  if ((<ComponentNode>scene).topRightRadius) { parsedVH['topRightRadius'] = (<ComponentNode>scene).topRightRadius; }
+  if ((<ComponentNode>scene).type) { parsedVH['type'] = (<ComponentNode>scene).type; }
+  if ((<ComponentNode>scene).visible) { parsedVH['visible'] = (<ComponentNode>scene).visible; }
+  if ((<ComponentNode>scene).width) { parsedVH['height'] = (<ComponentNode>scene).width; }
+  if ((<ComponentNode>scene).x) { parsedVH['x'] = (<ComponentNode>scene).x; }
+  if ((<ComponentNode>scene).y) { parsedVH['y'] = (<ComponentNode>scene).y; }
+
+  //MAYBE:
+  // auto-layout: 
+  // counterAxisAlignContent, counterAxisAlignItems, counterAxisSizingMode, counterAxisSpacing, itemReverseZIndex, itemSpacing, 
+  // layoutAlign, layoutGrow, layoutMode, layoutPoisitioning, layoutSizingHorizontal, layoutSizingVertical, layoutWrap, 
+  // primaryAxisAlignItems, primaryAxisSizingMode, strokesIncludedInLayout
+
+  // stroke: 
+  // strokeAlign, strokeBottomWeight, strokeCap, strokeGeometry, strokeJoin, strokeLeftWeight, strokeMiterLimit, strokeRightWeight, 
+  // strokeTopWeight, strokeWeight, strokes, maxHeight, maxWidth, minHeight, minWidth,  paddingBottom, paddingLeft, 
+  // paddingRight, paddingTop, 
+
+  // absoluteBoundingBox, absoluteTransfrom, blendMode, relativeTransform, 
+    
+  // LAST CASE SCENARIO: getCSSAsync(), getMeasurements(), toString()
 }
